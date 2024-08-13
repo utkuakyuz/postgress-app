@@ -1,0 +1,36 @@
+networks:
+  mynet:
+    external: true
+
+
+services:
+  my-node-app2:
+    image: nodeapp4
+    ports:
+      - "8080:8080"
+    networks:
+      - mynet
+    depends_on:
+      - postgres
+
+
+  my-web-app2:
+    build: ./postgresFE
+    ports:
+      - "80:80"
+    networks:
+      - mynet
+
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: postgres
+    networks:
+      - mynet
+    ports:
+      - "5432:5432"
+
+
